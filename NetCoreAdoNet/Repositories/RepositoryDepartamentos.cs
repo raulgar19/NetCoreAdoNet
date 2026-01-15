@@ -51,12 +51,70 @@ namespace NetCoreAdoNet.Repositories
             return departamentos;
         }
 
-        public async Task AddDepartamentoAsync(Departamento departamento)
+        public async Task<int> AddDepartamentoAsync(Departamento departamento)
         {
             string sql = "insert into DEPT (DEPT_NO, DNOMBRE, LOC) VALUES (@idDepartamento, @nombre, @localidad)";
             SqlParameter idDepartamento = new SqlParameter("@idDepartamento", departamento.IdDepartamento);
+            SqlParameter nombre = new SqlParameter("@nombre", departamento.Nombre);
+            SqlParameter localidad = new SqlParameter("@localidad", departamento.Localidad);
+
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+
+            this.com.Parameters.Add(idDepartamento);
+            this.com.Parameters.Add(nombre);
+            this.com.Parameters.Add(localidad);
+
+            await this.cn.OpenAsync();
+
+            int registros = await this.com.ExecuteNonQueryAsync();
+
+            await this.cn.CloseAsync();
+            this.com.Parameters.Clear();
+
+            return registros;
+        }
+
+        public async Task<int> UpdateDepartamentoAsync(Departamento departamento) 
+        {
+            string sql = "update DEPT set DNOMBRE = @nombre, LOC = @localidad where DEPT_NO = @idDepartamento";
             SqlParameter idDepartamento = new SqlParameter("@idDepartamento", departamento.IdDepartamento);
-            SqlParameter idDepartamento = new SqlParameter("@idDepartamento", departamento.IdDepartamento);
+            SqlParameter nombre = new SqlParameter("@nombre", departamento.Nombre);
+            SqlParameter localidad = new SqlParameter("@localidad", departamento.Localidad);
+
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            this.com.Parameters.Add(idDepartamento);
+            this.com.Parameters.Add(nombre);
+            this.com.Parameters.Add(localidad);
+
+            await this.cn.OpenAsync();
+
+            int registros = await this.com.ExecuteNonQueryAsync();
+
+            await this.cn.CloseAsync();
+            this.com.Parameters.Clear();
+
+            return registros;
+        }
+
+        public async Task<int> DeleteDepartamentoAsync(int idDepartamento)
+        {
+            string sql = "delete from DEPT where DEPT_NO = @idDepartamento";
+            SqlParameter id = new SqlParameter("@idDepartamento", idDepartamento);
+
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            this.com.Parameters.Add(id);
+
+            await this.cn.OpenAsync();
+            
+            int registros = await this.com.ExecuteNonQueryAsync();
+            
+            await this.cn.CloseAsync();
+            this.com.Parameters.Clear();
+
+            return registros;
         }
     }
 }
