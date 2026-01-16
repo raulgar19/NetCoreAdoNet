@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -62,10 +63,34 @@ namespace NetCoreAdoNet.Repositories
 
                 this.lstEmpleados.Items.Clear();
 
+                int suma = 0;
+
+                int salarioMaximo = 0;
+
+                int contador = 0;
+
                 foreach (string empleado in empleados)
                 {
+                    string apellido = empleado.Split("-")[0].Trim();
+                    int salario = int.Parse(empleado.Split("-")[1].Trim());
+
+                    contador++;
+
+                    suma += salario;
+
+                    if (salario > salarioMaximo)
+                    {
+                        salarioMaximo = salario;
+                    }
+
                     this.lstEmpleados.Items.Add(empleado);
                 }
+
+                var cultura = CultureInfo.CreateSpecificCulture("es-ES");
+
+                this.lblMaximoSalarial.Text = $"Máximo salarial: {salarioMaximo.ToString("C", cultura)}";
+                this.lblMediaSalarial.Text = $"Media salarial: {(suma / contador).ToString("C", cultura)}";
+                this.lblSumaSalarial.Text = $"Suma salarial: {suma.ToString("C", cultura)}";
             }
         }
     }

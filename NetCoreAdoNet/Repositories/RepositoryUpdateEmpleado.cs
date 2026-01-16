@@ -46,7 +46,7 @@ namespace NetCoreAdoNet.Repositories
 
         public async Task<List<string>> GetEmpleadosByOficioAsync(string oficio)
         {
-            string sql = "select APELLIDO from EMP where OFICIO = @oficio";
+            string sql = "select APELLIDO, SALARIO from EMP where OFICIO = @oficio";
 
             this.com.Parameters.AddWithValue("@oficio", oficio);
             this.com.CommandType = CommandType.Text;
@@ -60,7 +60,9 @@ namespace NetCoreAdoNet.Repositories
 
             while (await this.reader.ReadAsync())
             {
-                string empleado = this.reader["APELLIDO"].ToString();
+                string apellido = this.reader["APELLIDO"].ToString();
+                string salario = this.reader["SALARIO"].ToString();
+                string empleado = $"{apellido} - {salario}";
                 empleados.Add(empleado);
             }
 
