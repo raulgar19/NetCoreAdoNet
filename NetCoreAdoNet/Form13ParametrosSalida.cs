@@ -101,11 +101,12 @@ namespace NetCoreAdoNet
                 this.lstEmpleados.Items.Add(apellido);
             }
 
+            await this.reader.CloseAsync();
+
             this.txtSuma.Text = pamSuma.Value.ToString();
             this.txtMedia.Text = pamMedia.Value.ToString();
             this.txtPersonas.Text = pamPersonas.Value.ToString();
 
-            await this.reader.CloseAsync();
             await this.cn.CloseAsync();
             this.com.Parameters.Clear();
         }
