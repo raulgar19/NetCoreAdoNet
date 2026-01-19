@@ -7,6 +7,21 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+#region PROCEDURES
+//create procedure SP_INSERT_DEPARTAMENTO
+//(@numero int, @nombre nvarchar(50), @localidad nvarchar(50))
+//as
+//	if (UPPER(@localidad) = 'TERUEL')
+//	begin
+//		print 'TERUEL NO EXISTE'
+//	end
+//	else
+//	begin
+//		insert into DEPT values (@numero, @nombre, @localidad)
+//	end
+//go
+#endregion
+
 namespace NetCoreAdoNet
 {
     public partial class Form12MensajesServidor : Form
